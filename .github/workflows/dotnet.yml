@@ -14,10 +14,13 @@ jobs:
     
     env:
       CONFIGURATION_MODE: Release
-      PORTAL_PUBLISH_DIRECTORY: ./artifacts/portal/
+      PORTAL_PUBLISH_DIRECTORY: "./artifacts/portal/"
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Output variable values
+      run: echo "CONFIGURATION_MODE is $CONFIGURATION_MODE, PORTAL_PUBLISH_DIRECTORY is $PORTAL_PUBLISH_DIRECTORY"
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
