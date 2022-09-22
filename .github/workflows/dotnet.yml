@@ -23,13 +23,13 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration Release
       
     - name: Test
-      run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj
+      run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --configuration Release
       
     - name: Publish
-      run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output ./artifacts/portal/
+      run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output ./artifacts/portal/ --configuration Release
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
