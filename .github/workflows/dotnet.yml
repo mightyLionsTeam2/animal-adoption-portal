@@ -43,5 +43,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: animal-adoption-portal 
-        path: $PORTAL_PUBLISH_DIRECTORY
+        path: ${{ env.PORTAL_PUBLISH_DIRECTORY }}
         if-no-files-found: error
