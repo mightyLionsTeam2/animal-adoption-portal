@@ -13,7 +13,7 @@ jobs:
     
     env:
       CONFIGURATION_MODE: Release
-      PORTAL_PUBLISH_DIRECTORY: './artifacts/portal/'
+      PORTAL_PUBLISH_DIRECTORY: ./artifacts/portal/
 
     steps:
     - uses: actions/checkout@v3
