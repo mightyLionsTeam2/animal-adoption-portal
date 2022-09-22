@@ -29,7 +29,7 @@ jobs:
       run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj
       
     - name: Publish
-      run: dotnet publish AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.csproj --no-build --output ./artifacts/portal/
+      run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output ./artifacts/portal/
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
