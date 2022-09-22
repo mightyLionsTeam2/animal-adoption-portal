@@ -45,3 +45,21 @@ jobs:
         name: animal-adoption-portal 
         path: ${{ env.PORTAL_PUBLISH_DIRECTORY }}
         if-no-files-found: error
+        
+    - name: Notification for build failure
+      uses: jdcargile/ms-teams-notification@v1.3
+      if: failure()
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+        notification-summary: BUILD FAILED
+        notification-color: 'dc3545'
+
+    - name: Notification for build success
+      uses: jdcargile/ms-teams-notification@v1.3
+      if: success()
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+        notification-summary: BUILD SUCCEEDED
+        notification-color: '28a745'
