@@ -10,6 +10,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    env:
+      CONFIGURATION_MODE: Release
+      PORTAL_PUBLISH_DIRECTORY: './artifacts/portal/'
 
     steps:
     - uses: actions/checkout@v3
@@ -23,17 +27,17 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build --no-restore --configuration $CONFIGURATION_MODE
       
     - name: Test
-      run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --configuration Release
+      run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --configuration $CONFIGURATION_MODE
       
     - name: Publish
-      run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output ./artifacts/portal/ --configuration Release
+      run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output $PORTAL_PUBLISH_DIRECTORY --configuration $CONFIGURATION_MODE
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
         name: animal-adoption-portal 
-        path: ./artifacts/portal/
+        path: $PORTAL_PUBLISH_DIRECTORY
         if-no-files-found: error
