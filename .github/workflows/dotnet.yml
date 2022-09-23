@@ -18,7 +18,7 @@ jobs:
     
     env:
       CONFIGURATION_MODE: Release
-      PORTAL_PUBLISH_DIRECTORY: ${{ env.PORTAL_ARTIFACT_DIRECTORY }}
+      PORTAL_PUBLISH_DIRECTORY: $PORTAL_ARTIFACT_DIRECTORY
 
     steps:
     - uses: actions/checkout@v3
