@@ -12,6 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     
+    
     env:
       CONFIGURATION_MODE: Release
       PORTAL_PUBLISH_DIRECTORY: "./artifacts/portal/"
@@ -39,6 +40,8 @@ jobs:
     - name: Publish
       run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output $PORTAL_PUBLISH_DIRECTORY --configuration $CONFIGURATION_MODE
       
+      
+      
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
@@ -63,3 +66,32 @@ jobs:
         ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
         notification-summary: BUILD SUCCEEDED
         notification-color: '28a745'
+        
+  deploy:
+    
+    runs-on: ubuntu-latest
+    
+    needs: build
+    
+    environment:
+      name: 'Development'
+      url:  'https://mightyliondev.azurewebsites.net'
+      
+    env:  
+      MIGHTYLION_AZURE_DEV_WEBAPP: MightyLionDev
+      AZURE_WEBAPP_PACKAGE_PATH: "./artifacts/portal/"
+      
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.MIGHTYLION_AZURE_DEV_WEBAPP }}
+          publish-profile: ${{ secrets.MIGHTYLION_AZURE_DEV_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
