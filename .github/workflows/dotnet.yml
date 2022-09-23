@@ -74,6 +74,8 @@ jobs:
     
     needs: build
     
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
     environment:
       name: 'Development'
       url:  'https://mightyliondev.azurewebsites.net'
