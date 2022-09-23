@@ -112,12 +112,12 @@ jobs:
             [
               {
                 "name": "GlobalPassword",
-                "value": "${{ secrets.AZURE_WEBAPP_GLOBAL_PASSWORD }}",
+                "value": "@Microsoft.KeyVault(VaultName=kvmightylionsteam2;SecretName=GlobalPassword)",
                 "slotSetting": false
               },
                {
                 "name": "SimulatedFailureChange",
-                "value": 0,
+                "value": "@Microsoft.KeyVault(VaultName=kvmightylionsteam2;SecretName=SimulatedFailureChance)",
                 "slotSetting": false
               }
             ]    
