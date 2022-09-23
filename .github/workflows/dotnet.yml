@@ -98,3 +98,22 @@ jobs:
           app-name: ${{ env.MIGHTYLION_AZURE_DEV_WEBAPP }}
           publish-profile: ${{ secrets.MIGHTYLION_AZURE_DEV_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          
+      - name: Azure App Service Settings
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.PORTAL_ARTIFACT_NAME }}
+          # Application settings using the JSON syntax set as value of secret variable: APP_SETTINGS
+          app-settings-json:  |
+            [
+              {
+                "name": "GlobalPassword",
+                "value": "${{ secrets.AZURE_WEBAPP_GLOBAL_PASSWORD }}",
+                "slotSetting": false
+              },
+               {
+                "name": "SimulatedFailureChange",
+                "value": 0,
+                "slotSetting": false
+              }
+            ]
