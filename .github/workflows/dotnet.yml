@@ -6,16 +6,19 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
+  
+env:
+  PORTAL_ARTIFACT_NAME: animal-adoption-portal
+  PORTAL_ARTIFACT_DIRECTORY: "./artifacts/portal/"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
     
-    
     env:
       CONFIGURATION_MODE: Release
-      PORTAL_PUBLISH_DIRECTORY: "./artifacts/portal/"
+      PORTAL_PUBLISH_DIRECTORY: ${{ env.PORTAL_ARTIFACT_DIRECTORY }}
 
     steps:
     - uses: actions/checkout@v3
@@ -36,16 +39,14 @@ jobs:
       
     - name: Test
       run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --configuration $CONFIGURATION_MODE
-      
+
     - name: Publish
       run: dotnet publish AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --no-build --output $PORTAL_PUBLISH_DIRECTORY --configuration $CONFIGURATION_MODE
-      
-      
-      
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: animal-adoption-portal 
+        name: ${{ env.PORTAL_ARTIFACT_NAME }}
         path: ${{ env.PORTAL_PUBLISH_DIRECTORY }}
         if-no-files-found: error
         
@@ -66,7 +67,7 @@ jobs:
         ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
         notification-summary: BUILD SUCCEEDED
         notification-color: '28a745'
-        
+
   deploy:
     
     runs-on: ubuntu-latest
@@ -79,13 +80,13 @@ jobs:
       
     env:  
       MIGHTYLION_AZURE_DEV_WEBAPP: MightyLionDev
-      AZURE_WEBAPP_PACKAGE_PATH: "./artifacts/portal/"
-      
+      AZURE_WEBAPP_PACKAGE_PATH: ${{ env.PORTAL_ARTIFACT_DIRECTORY }}
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: .net-app
+          name: ${{ env.PORTAL_ARTIFACT_NAME }}
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           
       - name: Deploy to Azure Web App
