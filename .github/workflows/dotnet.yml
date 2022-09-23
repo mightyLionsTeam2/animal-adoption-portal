@@ -80,7 +80,7 @@ jobs:
       
     env:  
       MIGHTYLION_AZURE_DEV_WEBAPP: MightyLionDev
-      AZURE_WEBAPP_PACKAGE_PATH: ${{ env.PORTAL_ARTIFACT_DIRECTORY }}
+      AZURE_WEBAPP_PACKAGE_PATH: $PORTAL_ARTIFACT_DIRECTORY
 
     steps:
       - name: Download artifact from build job
