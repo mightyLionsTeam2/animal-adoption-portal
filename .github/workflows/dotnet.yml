@@ -68,7 +68,7 @@ jobs:
         notification-summary: BUILD SUCCEEDED
         notification-color: '28a745'
 
-  deploy:
+  deploy-dev-web-app:
     
     runs-on: ubuntu-latest
     
